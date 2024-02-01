@@ -1,4 +1,5 @@
 from aplhavantage import AP
+import plotly.graph_objects as go
 from secret import API_KEY
 import matplotlib.pyplot as plt
 #look polygon.io
@@ -13,23 +14,20 @@ def main():
     
     arrValori,arrDate = ap.getTickerList(ticker,int(giorni))
 
-    # Crea il grafico
-    plt.plot(arrDate, arrValori, marker='o', linestyle='-', color='b')
-
-    # Aggiungi etichette agli assi e un titolo
-    plt.xlabel('Date')
-    plt.ylabel('Valori più alti')
-    plt.title("ticker:"+ticker)
-
-    # Aggiungi una griglia
-    plt.grid(True)
-
-    # Rotazione delle etichette sull'asse x per una migliore leggibilità
-    plt.xticks(rotation=45)
-
-    # Mostra il grafico
-    plt.show()
     
+    open_data = [x[0] for x in arrValori]
+    high_data = [x[1] for x in arrValori]
+    low_data = [x[2] for x in arrValori]
+    close_data = [x[3] for x in arrValori]
+
+    # Crea il grafico a candela
+    fig = go.Figure(data=[go.Candlestick(x=arrDate,
+                                         open=open_data,
+                                         high=high_data,
+                                         low=low_data,
+                                         close=close_data)])
+    # Mostra il grafico
+    fig.show()
 
 if __name__=="__main__":
     main()
